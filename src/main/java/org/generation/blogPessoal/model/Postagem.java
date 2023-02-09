@@ -2,10 +2,13 @@ package org.generation.blogPessoal.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -29,6 +32,10 @@ public class Postagem {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date date = new java.sql.Date(System.currentTimeMillis());
+    
+    @ManyToOne
+    @JsonIgnoreProperties("postagens")
+    private Tema tema;
 
 	public long getId() {
 		return id;
@@ -60,5 +67,13 @@ public class Postagem {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}    
+	} 
+	
+    public Tema getTema() {
+        return tema;
+    }
+
+    public void setTema(Tema tema) {
+        this.tema = tema;
+    }
 }
