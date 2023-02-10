@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/postagens")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -43,12 +45,12 @@ public class PostagemController {
     }
 
     @PostMapping
-    public ResponseEntity<Postagem> post(@RequestBody Postagem postagem) {
+    public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(postagem));
     }
 
     @PutMapping
-    public ResponseEntity<Postagem> put(@RequestBody Postagem postagem) {
+    public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem) {
         return ResponseEntity.ok(repo.save(postagem));
     }
 
