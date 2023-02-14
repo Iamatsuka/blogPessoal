@@ -1,6 +1,6 @@
 package org.generation.blogPessoal.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,70 +10,85 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "tb_postagens")
 public class Postagem {
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @NotNull
-    @Size(min = 5, max = 100)
-    private String titulo;
-
-    @NotNull
-    @Size(min = 10, max = 500)
-    private String texto;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date = new java.sql.Date(System.currentTimeMillis());
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    private Long id;
+	
+    @NotBlank(message = "O Atributo título é Obrigatório!") 
+    @Size(min = 5, max = 100, message = "O Atributo título deve conter no mínimo 05 e no máximo 100 caracteres")
+    private String titulo;
+	
+    @NotBlank(message = "O Atributo texto é Obrigatório!")
+    @Size(min = 10, max = 1000, message = "O Atributo texto deve conter no mínimo 10 e no máximo 1000 caracteres")
+    private String texto;
+	
+    @UpdateTimestamp
+    private LocalDateTime data;
+
     @ManyToOne
-    @JsonIgnoreProperties("postagens")
+    @JsonIgnoreProperties("postagem")
     private Tema tema;
 
-	public long getId() {
-		return id;
-	}
+    @ManyToOne
+    @JsonIgnoreProperties("postagem")
+    private Usuario usuario;
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
-	public String getTitulo() {
-		return titulo;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getTexto() {
-		return texto;
-	}
+    public String getTitulo() {
+        return this.titulo;
+    }
 
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public String getTexto() {
+        return this.texto;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	} 
-	
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public LocalDateTime getData() {
+        return this.data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
     public Tema getTema() {
-        return tema;
+        return this.tema;
     }
 
     public void setTema(Tema tema) {
         this.tema = tema;
     }
+
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }
